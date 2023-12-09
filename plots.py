@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
+
 import json as js
+
 
 with open("snippets.json") as f:
     dictory = js.load(f)
