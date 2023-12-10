@@ -8,7 +8,7 @@ import windows
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('src/app.ico'))
+    app.setWindowIcon(QIcon('media/app.ico'))
     app.setApplicationDisplayName("MusicPlayer")
 
     main_win = windows.MainWindow()

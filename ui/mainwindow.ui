@@ -171,7 +171,7 @@
             </property>
             <property name="icon">
              <iconset>
-              <normaloff>../src/3.png</normaloff>../src/3.png</iconset>
+              <normaloff>../media/3.png</normaloff>../media/3.png</iconset>
             </property>
            </widget>
           </item>
@@ -284,7 +284,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../src/Group 1.png</normaloff>../src/Group 1.png</iconset>
+            <normaloff>../media/Group 1.png</normaloff>../media/Group 1.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -301,7 +301,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../src/Vector.png</normaloff>../src/Vector.png</iconset>
+            <normaloff>../media/Vector.png</normaloff>../media/Vector.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -318,7 +318,7 @@
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>../src/2.png</normaloff>../src/2.png</iconset>
+            <normaloff>../media/2.png</normaloff>../media/2.png</iconset>
           </property>
           <property name="iconSize">
            <size>

@@ -60,11 +60,11 @@ class Track:
 
 class PlayList:
    def __init__(self) -> None:
-      with open("src/playlist.txt") as f:
+      with open("media/playlist.txt") as f:
          self.tracks_id = eval(f.read())
 
    def update(self) -> None:
-      with open("src/playlist.txt", "w") as f:
+      with open("media/playlist.txt", "w") as f:
          f.write(str(self.tracks_id))
 
    def add(self, id: int) -> None:
