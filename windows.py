@@ -206,7 +206,7 @@ class MainWindow(QMainWindow):
       self.Update_btn.clicked.connect(self.add)
 
 
-   def load_track(self, id=0) -> None:
+   def load_track(self, item, id=0) -> None:
       if id == 0:
          self.index = self.listWidget.currentRow()
          self.track = self.track_list[self.index]
@@ -371,13 +371,13 @@ class MainWindow(QMainWindow):
          self.SearchCombox.lineEdit().clear()
 
 
-   def load(self) -> None:
+   def load(self, item) -> None:
       if self.SearchCombox.currentIndex() not in (-1, 0):
          try:
             track_text = self.SearchCombox.currentText()
             id = self.search_dict[track_text]
 
-            self.load_track(id=id)
+            self.load_track(item, id=id)
             self.SearchCombox.lineEdit().clear()
 
          except KeyError:
