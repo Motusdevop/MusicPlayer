@@ -31,3 +31,6 @@ media/
 
 .trash
 *.trash
+
+.Server/__pycache__/
+*.Server/__pycache__/
