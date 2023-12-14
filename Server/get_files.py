@@ -15,7 +15,7 @@ def check_connection() -> bool:
         requests.get(URL)
         return True
 
-    except URLError:
+    except:
         return False
 
 
@@ -55,6 +55,17 @@ def search(search_text) -> Optional[Any]:
     except SyntaxError:
         return None
 
+def get_snippet(id: int) -> list:
+    try:
+        r = requests.get(f"{URL}/get_post_snippet?track_id={id}")
+        return eval(r.text)
+
+    except:
+        print("Error")
+
+def post_snippet(id: int, snippet: list):
+    requests.post(f"{URL}/get_post_snippet?track_id={id}", json={f"{id}": snippet})
+
 
 if __name__ == "__main__":
-    search("What")
+    pass

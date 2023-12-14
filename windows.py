@@ -48,16 +48,26 @@ class Track:
 
 
    def get_snippet_list(self) -> list[int]:
-      if self.title_and_artist in snippets_dict.keys():
-         self.snippet = True
-         return snippets_dict[self.title_and_artist]
+      if self.id == 0:
+         if self.title_and_artist in snippets_dict.keys():
+            self.snippet = True
+            return snippets_dict[self.title_and_artist]
+         else:
+            return snippets.create_snippet_list(self.duration)
       else:
-         return snippets.create_snippet_list(self.duration)
+         snippet_list = get_files.get_snippet(self.id)
+         if snippet_list == None:
+            return snippets.create_snippet_list(self.duration)
+         else:
+            return snippet_list
 
 
    def update_snippet_list(self) -> None:
-      global snippets_dict
-      snippets_dict[self.title_and_artist] = self.snippet_list
+      if self.id == 0:
+         global snippets_dict
+         snippets_dict[self.title_and_artist] = self.snippet_list
+      else:
+         get_files.post_snippet(self.id, self.snippet_list)
 
 
 class PlayList:
@@ -95,7 +105,7 @@ class MainWindow(QMainWindow):
 
       mixer.init()
 
-      # self.track = Track("src/nodelete.mp3")
+      self.track = None
 
       MainWindow.win = self
 
@@ -118,16 +128,18 @@ class MainWindow(QMainWindow):
 
       self.playlist = PlayList()
 
+      self.installing_signals()
+      self.show()
+
       if get_files.check_connection():
          self.select_mode = "Online"
          self.dir_ = "music"
       else:
          self.select_mode = "Local"
          self.dir_ = "LocalTracks"
+         self.OnlineRad.setEnabled(False)
          self.al = Alert(Alert_text="Не удалось подключится к серверу. Режим оффлайн")
 
-      self.installing_signals()
-      self.show()
       self.get_tracks()
       self.add()
 
@@ -209,10 +221,11 @@ class MainWindow(QMainWindow):
 
 
    def load_track(self, item, id=0) -> None:
+      if self.track:
+         self.track.update_snippet_list()
       if id == 0:
          self.index = self.listWidget.currentRow()
          self.track = self.track_list[self.index]
-         self.track.update_snippet_list()
          self.labelMusic.setText(self.track.title_and_artist)
          self.player.load(self.track.path)
          self.track_time = self.track.duration
@@ -353,7 +366,6 @@ class MainWindow(QMainWindow):
       self.search_text = self.SearchCombox.lineEdit().text()
 
       if self.search_text:
-         print(self.search_text)
          self.results = get_files.search(self.search_text)
 
          self.SearchCombox.clear()
