@@ -30,5 +30,9 @@ __pycache__/
 .trash
 *.trash
 
-.Server/__pycache__/
-*.Server/__pycache__/
+/Server/__pycache__/
+
+/preload/*.mp3
+/music/*.mp3
+
+.DS_Store
