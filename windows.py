@@ -17,6 +17,8 @@ from Server import get_files
 import snippets
 
 
+
+snippets.create_json()
 snippets_dict = snippets.get_json()
 snippets.clear()
 
@@ -388,7 +390,7 @@ class MainWindow(QMainWindow):
          file_path = os.path.join("preload", filename)
 
          try:
-            if os.path.isfile(file_path):
+            if os.path.isfile(file_path) and file_path != "preload/.gitkeep":
                os.remove(file_path)
 
          except Exception as e:

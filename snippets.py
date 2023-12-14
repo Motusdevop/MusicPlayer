@@ -3,9 +3,15 @@ import json
 from math import ceil
 
 
+def create_json() -> None:
+    with open("snippets.json", "w") as f:
+        f.write("")
 def get_json() -> dict:
-    with open("snippets.json") as f:
-        return json.load(f)
+    try:
+        with open("snippets.json") as f:
+            return json.load(f)
+    except json.decoder.JSONDecodeError:
+        return dict()
 
 
 def write_json(new_json) -> None:
