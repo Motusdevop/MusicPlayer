@@ -31,6 +31,7 @@ __pycache__/
 *.trash
 
 Server/__pycache__/get_files.cpython-311.pyc
+Server/__pycache__
 
 /preload/*.mp3
 /music/*.mp3
