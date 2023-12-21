@@ -14,6 +14,8 @@ def get_json() -> dict:
             return json.load(f)
     except json.decoder.JSONDecodeError:
         return dict()
+    except FileNotFoundError:
+        create_json()
 
 
 def write_json(new_json) -> None:
@@ -31,7 +33,7 @@ def create_snippet_list(count) -> list[int]:
 
 
 def create_seconds_zone(snippet_list: list[int]) -> tuple:
-    if max(snippet_list) < 30 or min(snippet_list) == 0:
+    if max(snippet_list) < 10 or median(snippet_list) < 1:
         return tuple()
 
     # graph = snippet_list[4:]
@@ -42,7 +44,7 @@ def create_seconds_zone(snippet_list: list[int]) -> tuple:
     zone = list()
 
     for i in range(len(snippet_list)):
-        if snippet_list[i] >= median_count:
+        if snippet_list[i] > median_count:
             zone.append(i)
 
     # print(zone)
