@@ -224,16 +224,19 @@ class MainWindow(QMainWindow):
       if self.track:
          self.track.update_snippet_list()
       if id == 0:
-         self.index = self.listWidget.currentRow()
-         self.track = self.track_list[self.index]
-         self.labelMusic.setText(self.track.title_and_artist)
-         self.player.load(self.track.path)
-         self.track_time = self.track.duration
-         self.player.state = 1
-         self.ui_load_track()
-         self.track_current_time = 0
-         self.timer.start()
-         self.player.play(loops=0)
+         try:
+            self.index = self.listWidget.currentRow()
+            self.track = self.track_list[self.index]
+            self.labelMusic.setText(self.track.title_and_artist)
+            self.player.load(self.track.path)
+            self.track_time = self.track.duration
+            self.player.state = 1
+            self.ui_load_track()
+            self.track_current_time = 0
+            self.timer.start()
+            self.player.play(loops=0)
+         except IndexError:
+            pass
 
       else:
          get_files.load_mp3_to_directory(id, "preload/")
