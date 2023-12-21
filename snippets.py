@@ -3,6 +3,9 @@ import json
 from statistics import median
 
 
+from config import MIN_COUNT_OF_PLAYS_TO_CREATE_SNIPPET, MIN_MEDIAN_OF_PLAYS_TO_CREATE_SNIPPET
+
+
 def create_json() -> None:
     with open("snippets.json", "w") as f:
         f.write("")
@@ -33,7 +36,7 @@ def create_snippet_list(count) -> list[int]:
 
 
 def create_seconds_zone(snippet_list: list[int]) -> tuple:
-    if max(snippet_list) < 10 or median(snippet_list) < 1:
+    if max(snippet_list) < MIN_COUNT_OF_PLAYS_TO_CREATE_SNIPPET or median(snippet_list) < MIN_MEDIAN_OF_PLAYS_TO_CREATE_SNIPPET:
         return tuple()
 
     # graph = snippet_list[4:]
