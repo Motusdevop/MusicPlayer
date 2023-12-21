@@ -36,5 +36,7 @@ Server/__pycache__
 /preload/*.mp3
 /music/*.mp3
 
+/media/playlist.txt
+
 .DS_Store
 snippets.json
