@@ -7,7 +7,7 @@
 * Клонируйте репозиторий:
 
   ```bash
-  git clone https://github.com/Motusdevop/MusicPlayer
+  git clone git@github.com:Motusdevop/MusicPlayer.git
   ```
 
 * Создайте виртуальное окружение и активируйте его:
