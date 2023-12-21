@@ -6,9 +6,9 @@
 
 * Клонируйте репозиторий
 
-```bash
-git clone https://github.com/Motusdevop/MusicPlayer
-```
+  ```bash
+  git clone https://github.com/Motusdevop/MusicPlayer
+  ```
 
 * Создайте виртуальное окружение
 
@@ -18,7 +18,6 @@ git clone https://github.com/Motusdevop/MusicPlayer
 
 * Запустите
 
-```bash
-python main.py
-```
-
+  ```bash
+  python main.py
+  ```
