@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
         self.horizontalSlider.setEnabled(False)
         self.add_remove.setEnabled(False)
         self.OpenFolder.setEnabled(False)
+        self.snippet_btn.setEnabled(False)
 
         self.playlist = PlayList()
 
@@ -182,6 +183,9 @@ class MainWindow(QMainWindow):
 
         track_title_and_artist = [f"{track.title} - {track.artist}" for track in self.track_list]
         self.listWidget.addItems(track_title_and_artist)
+
+        if self.listWidget.count() == 0:
+            self.NoneTracks = Alert(Alert_text="Ничего нет. Добавьте песню")
 
     def set_dir(self) -> None:
         self.dir_ = QFileDialog.getExistingDirectory(None, 'Select a folder:', self.dir_)
@@ -459,11 +463,9 @@ class MainWindow(QMainWindow):
             self.snippet_btn.setEnabled(True)
             self.track.zone = zone
 
-        print("OK check", self.track.zone)
-
 
 class Alert(QWidget):
-    def __init__(self, Alert_text="Alert") -> None:
+    def __init__(self, Alert_text: str = "Alert") -> None:
         super(Alert, self).__init__()
         uic.loadUi('ui/alert.ui', self)
 
