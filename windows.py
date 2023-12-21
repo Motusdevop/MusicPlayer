@@ -2,6 +2,8 @@ import time
 
 import os
 
+import json
+
 from typing import Optional
 
 from PyQt6 import uic
@@ -106,9 +108,9 @@ class MainWindow(QMainWindow):
 
         self.track = None
 
-        MainWindow.win = self
-
         self.search_dict = dict()
+
+        self.dir_for_offline = "LocalTracks"
 
         self.timer = QTimer()
         self.timer.setInterval(1000)  # Миллисекунды
@@ -130,12 +132,14 @@ class MainWindow(QMainWindow):
         self.installing_signals()
         self.show()
 
+        self.load_indicators()
+
         if get_files.check_connection():
             self.select_mode = "Online"
             self.dir_ = "music"
         else:
             self.select_mode = "Local"
-            self.dir_ = "LocalTracks"
+            self.dir_ = self.dir_for_offline
             self.OnlineRad.setEnabled(False)
             self.al = Alert(Alert_text="Не удалось подключится к серверу. Режим оффлайн")
 
@@ -184,6 +188,7 @@ class MainWindow(QMainWindow):
 
         if self.dir_:
             self.add()
+            self.dir_for_offline = self.dir_
 
     def closeEvent(self, event) -> None:
         try:
@@ -192,6 +197,7 @@ class MainWindow(QMainWindow):
             self.track.update_snippet_list()
             snippets.write_json(snippets_dict)
             self.clear_preload()
+            self.saving_indicators()
             event.accept()  # let the window close
 
         except AttributeError:
@@ -408,6 +414,19 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 print(f'Ошибка при удалении файла {file_path}. {e}')
 
+    def saving_indicators(self):
+        with open("Last_Indicators.json", "w") as f:
+            f.write(json.dumps({'Volume': self.player.get_volume(), 'Select_dir': self.dir_for_offline}))
+
+    def load_indicators(self):
+        with open("Last_Indicators.json") as f:
+            indicators = json.load(f)
+            self.player.set_volume(indicators['Volume'])
+            self.horizontalSliderVolume.setValue(int(indicators['Volume'] * 100))
+            self.dir_for_offline = indicators['Select_dir']
+
+
+
     def change_mode(self) -> None:
         mode = self.Rad_group.checkedId()
 
@@ -419,7 +438,7 @@ class MainWindow(QMainWindow):
             self.add_remove.hide()
             self.SearchCombox.setEnabled(False)
             self.pushButtonSearch.setEnabled(False)
-            self.dir_ = "LocalTracks"
+            self.dir_ = self.dir_for_offline
             self.add()
 
         else:
