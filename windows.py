@@ -72,7 +72,7 @@ class PlayList:
                 self.tracks_id = eval(f.read())
         except FileNotFoundError:
             with open("media/playlist.txt", "w") as f:
-                f.write("")
+                f.write("[]")
                 self.tracks_id = list()
 
     def update(self) -> None:
@@ -216,7 +216,7 @@ class MainWindow(QMainWindow):
         self.Rad_group.buttonClicked.connect(self.change_mode)
         self.Update_btn.clicked.connect(self.add)
 
-    def load_track(self, item, id=0) -> None:
+    def load_track(self, item, id=0, start=0) -> None:
         if self.track:
             self.track.update_snippet_list()
         if id == 0:
@@ -230,7 +230,7 @@ class MainWindow(QMainWindow):
                 self.ui_load_track()
                 self.track_current_time = 0
                 self.timer.start()
-                self.player.play(loops=0)
+                self.player.play(loops=0, start=start)
             except IndexError:
                 pass
 
