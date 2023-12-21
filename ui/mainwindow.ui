@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
-    <height>571</height>
+    <width>1000</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
-    <height>400</height>
+    <width>1000</width>
+    <height>600</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
-    <height>1200</height>
+    <width>80000</width>
+    <height>80000</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -205,6 +205,13 @@
           </property>
           <property name="margin">
            <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="snippet_btn">
+          <property name="text">
+           <string>Сниппет</string>
           </property>
          </widget>
         </item>

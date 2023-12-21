@@ -16,10 +16,10 @@ from mutagen.easyid3 import EasyID3
 from Server import get_files
 import snippets
 
-snippets.create_json()
 snippets_dict = snippets.get_json()
-snippets.clear()
+# snippets.clear()
 
+created_id = dict()
 
 class Track:
     id: int
@@ -72,7 +72,7 @@ class PlayList:
                 self.tracks_id = eval(f.read())
         except FileNotFoundError:
             with open("media/playlist.txt", "w") as f:
-                f.write("")
+                f.write("[]")
                 self.tracks_id = list()
 
     def update(self) -> None:
@@ -147,6 +147,7 @@ class MainWindow(QMainWindow):
         self.listWidget.clear()
 
         if self.select_mode == "Online":
+            global created_id
             self.get_tracks()
 
             file_list = [i for i in os.listdir(self.dir_)]
@@ -159,7 +160,9 @@ class MainWindow(QMainWindow):
             self.track_list = []
             for file_name in mp3_list:
                 id = int(file_name)
-                self.track_list.append(Track(self.dir_ + "/" + file_name + ".mp3", id=id))
+                Track_object = Track(self.dir_ + "/" + file_name + ".mp3", id=id)
+                self.track_list.append(Track_object)
+                created_id[id] = Track_object
 
         else:
             file_list = [i for i in os.listdir(self.dir_)]
@@ -215,8 +218,9 @@ class MainWindow(QMainWindow):
         self.Rad_group.addButton(self.OnlineRad, 2)
         self.Rad_group.buttonClicked.connect(self.change_mode)
         self.Update_btn.clicked.connect(self.add)
+        self.snippet_btn.clicked.connect(self.run_snippet)
 
-    def load_track(self, item, id=0) -> None:
+    def load_track(self, item, id=0, start=0) -> None:
         if self.track:
             self.track.update_snippet_list()
         if id == 0:
@@ -228,24 +232,33 @@ class MainWindow(QMainWindow):
                 self.track_time = self.track.duration
                 self.player.state = 1
                 self.ui_load_track()
-                self.track_current_time = 0
+                self.track_current_time = start
                 self.timer.start()
-                self.player.play(loops=0)
+                self.player.play(loops=0, start=start)
             except IndexError:
                 pass
 
         else:
             get_files.load_mp3_to_directory(id, "preload/")
-            self.track_list.append(Track(f"preload/{id}.mp3", id=id))
-            self.track = self.track_list[len(self.track_list) - 1]
+            if not id in created_id.keys():
+                self.track_list.append(Track(f"preload/{id}.mp3", id=id))
+                self.track = self.track_list[len(self.track_list) - 1]
+            else:
+                self.track = created_id[id]
+
             self.labelMusic.setText(self.track.title_and_artist)
             self.player.load(self.track.path)
             self.track_time = self.track.duration
             self.player.state = 1
             self.ui_load_track()
-            self.track_current_time = 0
+            self.track_current_time = start
             self.timer.start()
-            self.player.play(loops=0)
+            self.player.play(loops=0, start=start)
+
+        self.check_snippet_zone()
+
+    def run_snippet(self):
+        self.load_track(None, id=self.track.id, start=self.track.zone[0])
 
     def ui_load_track(self) -> None:
         self.horizontalSlider.setSliderPosition(0)
@@ -298,8 +311,9 @@ class MainWindow(QMainWindow):
             else:
                 new_item = self.listWidget.item(self.listWidget.count() - 1)
 
-            self.load_track(new_item)
             self.listWidget.setCurrentItem(new_item)
+            self.load_track(new_item)
+
 
     def volume_changed(self, value) -> None:
         self.player.set_volume(value / 100)
@@ -416,6 +430,17 @@ class MainWindow(QMainWindow):
             self.pushButtonSearch.setEnabled(True)
             self.dir_ = "music"
             self.add()
+
+    def check_snippet_zone(self):
+        zone = snippets.create_seconds_zone(self.track.snippet_list)
+        if len(zone) == 0:
+            self.snippet_btn.setEnabled(False)
+            self.track.zone = None
+        else:
+            self.snippet_btn.setEnabled(True)
+            self.track.zone = zone
+
+        print("OK check", self.track.zone)
 
 
 class Alert(QWidget):

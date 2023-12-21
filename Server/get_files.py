@@ -6,7 +6,6 @@ import requests
 
 import config
 
-
 URL = config.URL
 
 
@@ -55,7 +54,8 @@ def search(search_text) -> Optional[Any]:
     except SyntaxError:
         return None
 
-def get_snippet(id: int) -> list:
+
+def get_snippet(id: int) -> list[int]:
     try:
         r = requests.get(f"{URL}/get_post_snippet?track_id={id}")
         return eval(r.text)
@@ -63,7 +63,8 @@ def get_snippet(id: int) -> list:
     except:
         print("Error")
 
-def post_snippet(id: int, snippet: list):
+
+def post_snippet(id: int, snippet: list[int]):
     requests.post(f"{URL}/get_post_snippet?track_id={id}", json={f"{id}": snippet})
 
 
