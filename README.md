@@ -4,19 +4,29 @@
 
 ### Instaling
 
-* Клонируйте репозиторий
+* Клонируйте репозиторий:
 
   ```bash
   git clone https://github.com/Motusdevop/MusicPlayer
   ```
 
-* Создайте виртуальное окружение
+* Создайте виртуальное окружение и активируйте его:
+  Для UNIX систем (linux, macos)
+  ```bash
+  python3 -m venv MusicPlayerVenv && source MusicPlayerVenv/bin/activate
+  ```
+  Для Windows
+  ```bash
+  python3 -m venv MusicPlayerVenv && MusicPlayerVenv\Scripts\activate
+  ```
 
-* pip install -r requirements.txt
-
+* Установите библиотеки:
+  ```bash
+  pip install -r requirements.txt
+  ```
 * Настройте файл: config.py
 
-* Запустите
+* Запустите:
 
   ```bash
   python main.py
