@@ -12,14 +12,14 @@
 
 * Создайте виртуальное окружение и активируйте его:
   
-  Для UNIX систем (linux, macos)
-  ```bash
-  python3 -m venv MusicPlayerVenv && source MusicPlayerVenv/bin/activate
-  ```
-  Для Windows
-  ```bash
-  python3 -m venv MusicPlayerVenv && MusicPlayerVenv\Scripts\activate
-  ```
+  *Для UNIX систем (linux, macos)
+    ```bash
+    python3 -m venv MusicPlayerVenv && source MusicPlayerVenv/bin/activate
+    ```
+  *Для Windows
+    ```bash
+    python3 -m venv MusicPlayerVenv && MusicPlayerVenv\Scripts\activate
+    ```
 
 * Установите библиотеки:
   ```bash
