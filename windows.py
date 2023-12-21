@@ -126,6 +126,7 @@ class MainWindow(QMainWindow):
         self.horizontalSlider.setEnabled(False)
         self.add_remove.setEnabled(False)
         self.OpenFolder.setEnabled(False)
+        self.snippet_btn.setEnabled(False)
 
         self.playlist = PlayList()
 
