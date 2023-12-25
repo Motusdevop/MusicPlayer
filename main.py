@@ -11,6 +11,6 @@ if __name__ == '__main__':
     app.setWindowIcon(QIcon('media/app.ico'))
     app.setApplicationDisplayName("MusicPlayer")
 
-    main_win = windows.MainWindow()
+    main_win = windows.MainWindow() # создаём главное окно
 
     sys.exit(app.exec())
