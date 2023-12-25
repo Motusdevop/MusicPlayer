@@ -2,16 +2,16 @@ import json
 
 from statistics import median
 
-
+# Получаем настройки
 from config import MIN_COUNT_OF_PLAYS_TO_CREATE_SNIPPET, MIN_MEDIAN_OF_PLAYS_TO_CREATE_SNIPPET
 
 
-def create_json() -> None:
+def create_json() -> None:  # Создаём json файл для хранения сниппетов
     with open("snippets.json", "w") as f:
         f.write("")
 
 
-def get_json() -> dict:
+def get_json() -> dict:  # Получаем словарь
     try:
         with open("snippets.json") as f:
             return json.load(f)
@@ -21,47 +21,46 @@ def get_json() -> dict:
         create_json()
 
 
-def write_json(new_json) -> None:
+def write_json(new_json) -> None:  # Обновляем json
     with open("snippets.json", 'w') as f:
         f.write(json.dumps(new_json, indent=1))
 
 
-def clear() -> None:
+def clear() -> None:  # очищаем файл
     with open("snippets.json", 'w') as f:
-        f.write(json.dumps({"0": [0, 0, 0, 0]}))
+        f.write(json.dumps({"0": [0, 0, 0, 0]}))  # Затычка для нормальной работы
 
 
-def create_snippet_list(count) -> list[int]:
+def create_snippet_list(count) -> list[int]:  # Создаём пустой сниппет лист
     return [0] * count
 
 
-def create_seconds_zone(snippet_list: list[int]) -> tuple:
-    if max(snippet_list) < MIN_COUNT_OF_PLAYS_TO_CREATE_SNIPPET or median(snippet_list) < MIN_MEDIAN_OF_PLAYS_TO_CREATE_SNIPPET:
+def create_seconds_zone(snippet_list: list[int]) -> tuple:  # Получаем зону сниппета
+    if max(snippet_list) < MIN_COUNT_OF_PLAYS_TO_CREATE_SNIPPET or median(
+            snippet_list) < MIN_MEDIAN_OF_PLAYS_TO_CREATE_SNIPPET:  # Условия создания сниппета
         return tuple()
 
-    # graph = snippet_list[4:]
-
     median_count = median(snippet_list)
-    print("median", median_count)
+    # print("median", median_count)
 
     zone = list()
 
-    for i in range(len(snippet_list)):
+    for i in range(len(snippet_list)):  # Ищем где кол-во прослушиваний больше медианного
         if snippet_list[i] > median_count:
             zone.append(i)
 
     # print(zone)
 
-    zones = [list() for _ in range(5)]
+    zones = [list() for _ in range(5)]  # Создаём список зон с ограничение до 5 возможных
 
     count_zones = 0
 
     for i in range(len(zone)):
 
-        if i + 1 == len(zone) or count_zones > 4:
+        if i + 1 == len(zone) or count_zones > 4:  # Если прошли весь список или кол-во зон слишком большое ломаем цикл
             break
 
-        if zone[i] + 1 == zone[i + 1]:
+        if zone[i] + 1 == zone[i + 1]:  # Если зона не прырывается то добавляем
             zones[count_zones].append(zone[i])
 
         else:
@@ -70,7 +69,7 @@ def create_seconds_zone(snippet_list: list[int]) -> tuple:
     maximum_len = 0
     index = 0
 
-    for i in zones:
+    for i in zones:  # Ищем самую большую зону. Это и есть наш сниппет
         if len(i) > maximum_len:
             maximum_len = len(i)
             index = zones.index(i)
