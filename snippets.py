@@ -66,15 +66,38 @@ def create_seconds_zone(snippet_list: list[int]) -> tuple:  # Получаем �
         else:
             count_zones += 1
 
-    maximum_len = 0
     index = 0
 
-    for i in zones:  # Ищем самую большую зону. Это и есть наш сниппет
-        if len(i) > maximum_len:
-            maximum_len = len(i)
-            index = zones.index(i)
+    last_priority = 0
 
-    # print(index)
+    dictory = dict()
+
+    for i in zones:  # Ищем самую большую зону. Это и есть наш сниппет
+        try:
+            if not (zones[zones.index(i)][0] in list(range(10)) and zones[zones.index(i)] != []):
+                priority = 0
+
+                if 50 < zones[zones.index(i)][0] < 200:
+                    priority += 1
+
+                if len(zones[index]) < len(i):
+                    priority += 1
+
+                if priority > last_priority:
+                    index = zones.index(i)
+                    last_priority = priority
+
+        except IndexError:
+            continue
+
+
+    try:
+        Len: int = zones[index][-1] - zones[index][1]
+    except IndexError:
+        return tuple()
+
+    if Len > 60 or Len < 30:
+        zones[index][-1] = zones[index][0] + 60
 
     return zones[index][0], zones[index][-1]
 

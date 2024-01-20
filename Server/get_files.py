@@ -29,7 +29,7 @@ def get_data(track_id: int) -> Optional[dict]:  # Получаем json с да�
 
 
 def load_mp3_to_directory(track_id: int, path: str) -> int:  # Получаем .mp3
-    r = requests.get(f"{URL}/track?track_id={track_id}")
+    r = requests.get(f"{URL}/track?track_id={track_id}", stream=True)
 
     with open(f"{path}/{track_id}.mp3", "wb") as f:
         f.write(r.content)

@@ -423,11 +423,16 @@ class MainWindow(QMainWindow):  # Окно PyQt. Главное окно. Син
             f.write(json.dumps({'Volume': self.player.get_volume(), 'Select_dir': self.dir_for_offline}))
 
     def load_indicators(self):  # Загружаем параметры при запуске
-        with open("Last_Indicators.json") as f:
-            indicators = json.load(f)
-            self.player.set_volume(indicators['Volume'])
-            self.horizontalSliderVolume.setValue(int(indicators['Volume'] * 100))
-            self.dir_for_offline = indicators['Select_dir']
+        try:
+            with open("Last_Indicators.json") as f:
+                indicators = json.load(f)
+                self.player.set_volume(indicators['Volume'])
+                self.horizontalSliderVolume.setValue(int(indicators['Volume'] * 100))
+                self.dir_for_offline = indicators['Select_dir']
+        except FileNotFoundError:
+            self.player.set_volume(0.5)
+            self.horizontalSliderVolume.setValue(int(0.5 * 100))
+            self.dir_for_offline = 'LocalTracks'
 
     def change_mode(self) -> None:
         mode = self.Rad_group.checkedId()
