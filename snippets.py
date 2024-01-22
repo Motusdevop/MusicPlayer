@@ -90,7 +90,6 @@ def create_seconds_zone(snippet_list: list[int]) -> tuple:  # Получаем �
         except IndexError:
             continue
 
-
     try:
         Len: int = zones[index][-1] - zones[index][1]
     except IndexError:
