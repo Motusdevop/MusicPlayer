@@ -94,6 +94,14 @@ def create_seconds_zone(snippet_list: list[int]) -> tuple:  # Получаем �
         Len: int = zones[index][-1] - zones[index][1]
     except IndexError:
         return tuple()
+    
+    if zones[index][0] in range(10):
+        try:
+            zones[index+1][2]
+
+            index += 1
+        except:
+            return tuple()
 
     if Len > 60 or Len < 30:
         zones[index][-1] = zones[index][0] + 60
